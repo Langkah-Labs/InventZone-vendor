@@ -9,7 +9,14 @@ import { icon_img } from "../../utils/constants";
 import { NavLink } from "react-router-dom";
 
 export default function Index() {
-  const { isLoading, logoutHandler, submitHandler } = useStatus();
+  const {
+    isLoading,
+    records,
+    logoutHandler,
+    onSubmit,
+    handleSubmit,
+    register,
+  } = useStatus();
 
   return (
     <>
@@ -44,7 +51,7 @@ export default function Index() {
             </div>
           </div>
           <div className="w-7/12 h-screen flex flex-col justify-center py-10 px-10">
-            <form onSubmit={submitHandler}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-4 sm:space-y-16">
                 <div>
                   <div className="font-sans space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
@@ -61,6 +68,7 @@ export default function Index() {
                           type="text"
                           id="productOrderId"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          {...register("productOrderId")}
                           required
                         />
                       </div>
@@ -88,6 +96,73 @@ export default function Index() {
                 </button>
               </div>
             </form>
+
+            <div className="mt-8 flow-root">
+              <div className="sm:flex sm:items-center">
+                <div className="sm:flex-auto">
+                  <h1 className="body-4large-bold font-semibold leading-6 text-[#113A5D]">
+                    List of PO
+                  </h1>
+                  <p className="mt-4 body-base-regular text-gray-400">
+                    This feature aims to be able to view your status
+                    verification.
+                  </p>
+                </div>
+              </div>
+              <div className="-mx-4 mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8 h-40">
+                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                  <table className="min-w-full divide-y divide-gray-300 font-sans">
+                    <thead className="sticky top-0 bg-[#113A5D] text-gray-100">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold  sm:pl-0"
+                        >
+                          Number PO
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold  sm:pl-0"
+                        >
+                          Product Name
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold  sm:pl-0"
+                        >
+                          Qty
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold  sm:pl-0"
+                        >
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {records.map((serialNumber) => (
+                        <tr key={serialNumber?.id}>
+                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                            {serialNumber?.product_order_id}
+                          </td>
+                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                            {serialNumber?.product?.name}&nbsp;-&nbsp;(
+                            {serialNumber?.product?.shorten_name})
+                          </td>
+                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                            {serialNumber?.quantity}
+                          </td>
+                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                            {serialNumber?.verification.toString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -9,7 +9,14 @@ import { icon_img } from "../../utils/constants";
 import { NavLink } from "react-router-dom";
 
 export default function Index() {
-  const { isLoading, logoutHandler, submitHandler } = useRecord();
+  const {
+    isLoading,
+    products,
+    logoutHandler,
+    onSubmit,
+    handleSubmit,
+    register,
+  } = useRecord();
 
   return (
     <>
@@ -19,7 +26,7 @@ export default function Index() {
         </div>
       ) : (
         <div className="flex justify-between items-start">
-          <div className="w-4/12 h-screen flex flex-col justify-between items-start bg-[#F6F7F9] py-4 px-10">
+          <div className="w-5/12 h-screen flex flex-col justify-between items-start bg-[#F6F7F9] py-4 px-10">
             <div>
               <img
                 src={icon_img}
@@ -46,11 +53,11 @@ export default function Index() {
               </button>
             </div>
           </div>
-          <div className="w-8/12 h-screen flex flex-col justify-center py-10 px-10">
-            <form onSubmit={submitHandler}>
-              <div className="space-y-4 sm:space-y-16">
+          <div className="w-7/12 h-screen flex flex-col justify-center py-10 px-10">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="space-y-12 sm:space-y-16">
                 <div>
-                  <div className="font-sans space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
+                  <div className="font-sans mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
                     <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                       <label
                         htmlFor="productOrderId"
@@ -64,6 +71,7 @@ export default function Index() {
                           type="text"
                           id="productOrderId"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          {...register("productOrderId")}
                           required
                         />
                       </div>
@@ -82,14 +90,15 @@ export default function Index() {
                           id="product-name"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                           defaultValue=""
+                          {...register("product_id")}
                           required
                         >
                           <option value="">Choose One</option>
-                          {/* {products?.map((item: any, i: number) => (
-                                <option value={item.id} key={i}>
-                                  {item.name}&nbsp;-&nbsp;({item.shorten_name})
-                                </option>
-                              ))} */}
+                          {products?.map((item: any, i: number) => (
+                            <option value={item.id} key={i}>
+                              {item.name}&nbsp;-&nbsp;({item.shorten_name})
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -107,6 +116,7 @@ export default function Index() {
                           type="number"
                           id="quantity"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          {...register("quantity")}
                           required
                         />
                       </div>

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // dependencies
 import { useNavigate } from "react-router-dom";
 import { graphqlRequest } from "../../utils/graphql";
+import { useForm, SubmitHandler } from "react-hook-form";
 import swal from "sweetalert";
+// types
+import { SerialNumberInput } from "../../types/serial-number";
 
 const findAllProductsQuery = `
   query FindAllProductsQuery {
@@ -30,18 +33,28 @@ const insertSerialNumberMutation = `
   }
 `;
 
-interface FormData {
-  username: string;
-  password: string;
-}
-
 export const useRecord = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [values, setValues] = useState<FormData>({
-    username: "",
-    password: "",
-  } as FormData);
+  const [products, setProducts] = useState<Array<object>>([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SerialNumberInput>();
+
+  useEffect(() => {
+    setIsLoading(false);
+    const fetch = async () => {
+      setIsLoading(true);
+      const res = await graphqlRequest.request<any>(findAllProductsQuery, {});
+      if (res) {
+        setProducts(res.products);
+        setIsLoading(false);
+      }
+    };
+    fetch();
+  }, []);
 
   const logoutHandler = async () => {
     setIsLoading(true);
@@ -65,7 +78,7 @@ export const useRecord = () => {
     navigate("/login");
   };
 
-  const submitHandler = async (data: any) => {
+  const onSubmit: SubmitHandler<SerialNumberInput> = async (data) => {
     try {
       setIsLoading(true);
       await graphqlRequest.request(insertSerialNumberMutation, data);
@@ -92,11 +105,13 @@ export const useRecord = () => {
   };
 
   return {
-    values,
+    products,
     isLoading,
-    setValues,
+    setProducts,
     logoutHandler,
-    submitHandler,
+    handleSubmit,
+    register,
+    onSubmit,
   };
 };
 

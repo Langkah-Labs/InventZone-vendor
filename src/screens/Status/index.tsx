@@ -19,7 +19,7 @@ export default function Index() {
         </div>
       ) : (
         <div className="flex justify-between items-start">
-          <div className="w-4/12 h-screen flex flex-col justify-between items-start bg-[#F6F7F9] py-4 px-10">
+          <div className="w-5/12 h-screen flex flex-col justify-between items-start bg-[#F6F7F9] py-4 px-10">
             <div>
               <img
                 src={icon_img}
@@ -43,7 +43,7 @@ export default function Index() {
               </button>
             </div>
           </div>
-          <div className="w-8/12 py-40 px-10">
+          <div className="w-7/12 h-screen flex flex-col justify-center py-10 px-10">
             <form onSubmit={submitHandler}>
               <div className="space-y-4 sm:space-y-16">
                 <div>

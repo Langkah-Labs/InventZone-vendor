@@ -27,16 +27,22 @@ const findAllSerialNumbersQuery = `
   }
 `;
 
-const insertSerialNumberMutation = `
-  mutation InsertSerialNumber($productOrderId: String!, $quantity: bigint!, $product_id: bigint!) {
-    insert_serial_numbers_one(object: {product_id: $product_id, product_order_id: $productOrderId, quantity: $quantity}) {
+const findSerialNumberByPoIdQuery = `
+  query FindSerialNumberByPoId($product_order_id: String!) {
+    serial_numbers(where: {product_order_id: {_eq: $product_order_id}}) {
       id
-      name: product_name
       product_id
-      product_order_id
       quantity
+      product_name
+      product_order_id
       created_at
       updated_at
+      status
+      verification
+      product {
+        name
+        shorten_name
+      }
     }
   }
 `;
@@ -60,8 +66,6 @@ export const useStatus = () => {
         {}
       );
       if (res) {
-        console.log(res);
-
         setRecords(res.serial_numbers);
         setIsLoading(false);
       }
@@ -94,16 +98,18 @@ export const useStatus = () => {
   const onSubmit: SubmitHandler<SerialNumberInput> = async (data) => {
     try {
       setIsLoading(true);
-      await graphqlRequest.request(insertSerialNumberMutation, data);
+      const { productOrderId } = data;
 
-      swal({
-        title: "Success!",
-        text: "Your data has been saved!",
-        icon: "success",
-        closeOnClickOutside: false,
-      }).then(() => {
-        navigate("/");
-      });
+      const res = await graphqlRequest.request<any>(
+        findSerialNumberByPoIdQuery,
+        {
+          product_order_id: productOrderId,
+        }
+      );
+      if (res) {
+        setRecords(res.serial_numbers);
+        setIsLoading(false);
+      }
     } catch (err) {
       console.error(err);
       swal({

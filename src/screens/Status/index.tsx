@@ -92,7 +92,7 @@ export default function Index() {
                   type="submit"
                   className="inline-flex justify-center rounded-md bg-[#113A5D] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Submit
+                  Search
                 </button>
               </div>
             </form>
@@ -109,7 +109,7 @@ export default function Index() {
                   </p>
                 </div>
               </div>
-              <div className="-mx-4 mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8 h-40">
+              <div className="-mx-4 mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8 h-44">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                   <table className="min-w-full divide-y divide-gray-300 font-sans">
                     <thead className="sticky top-0 bg-[#113A5D] text-gray-100">
@@ -153,8 +153,18 @@ export default function Index() {
                           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                             {serialNumber?.quantity}
                           </td>
-                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                            {serialNumber?.verification.toString()}
+                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-0">
+                            <h2
+                              className={`${
+                                serialNumber?.verification.toString() === "true"
+                                  ? "text-[#AFC17E] border-[#AFC17E]"
+                                  : "text-[#FACD89] border-[#FACD89]"
+                              } rounded-md border px-2 py-1 text-center`}
+                            >
+                              {serialNumber?.verification.toString() === "true"
+                                ? "Done"
+                                : "On Progress"}
+                            </h2>
                           </td>
                         </tr>
                       ))}

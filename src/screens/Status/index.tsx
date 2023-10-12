@@ -50,7 +50,7 @@ export default function Index() {
               </button>
             </div>
           </div>
-          <div className="w-7/12 h-screen flex flex-col justify-start py-10 px-10 mt-12">
+          <div className="w-7/12 h-screen flex flex-col justify-start py-8 px-10">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-4 sm:space-y-16">
                 <div>
@@ -109,7 +109,7 @@ export default function Index() {
                   </p>
                 </div>
               </div>
-              <div className="-mx-4 mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8 h-60">
+              <div className="-mx-4 mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8 h-[25rem]">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                   <table className="min-w-full divide-y divide-gray-300 font-sans">
                     <thead className="sticky top-0 bg-[#113A5D] text-gray-100">

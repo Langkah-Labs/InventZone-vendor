@@ -8,6 +8,7 @@ import { GlobalContextProvider } from "./context/GlobalContext";
 import App from "./App";
 // assets
 import "./styles/global.scss";
+import "./utils/supertokens";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

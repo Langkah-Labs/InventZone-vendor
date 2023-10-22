@@ -9,6 +9,7 @@ import Register from "./screens/Register";
 import Record from "./screens/Record";
 import Status from "./screens/Status";
 import Result from "./screens/Status/Result";
+import ForgotPassword from "./screens/ForgotPassword";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/record" element={<Record />} />
           <Route path="/status" element={<Status />} />
           <Route path="/status/result" element={<Result />} />

@@ -6,6 +6,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import swal from "sweetalert";
 // types
 import { SerialNumberInput } from "../../types/serial-number";
+import Session from "supertokens-web-js/recipe/session";
+import { useCookies } from "react-cookie";
 
 const findAllProductsQuery = `
   query FindAllProductsQuery {
@@ -42,6 +44,10 @@ export const useRecord = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<SerialNumberInput>();
+  const [, , removeCookie] = useCookies([
+    "sFrontToken",
+    "st-last-access-token-update",
+  ]);
 
   useEffect(() => {
     setIsLoading(false);
@@ -58,24 +64,11 @@ export const useRecord = () => {
 
   const logoutHandler = async () => {
     setIsLoading(true);
-    // try {
-    //   const res = await api.deleteCurrentSession();
-    //   if (res) {
-    //     localStorage.removeItem("user_session");
-    //     setIsLoading(false);
-    //     navigate("/login");
-    //   }
-    // } catch (e) {
-    //   setIsLoading(false);
-    //   console.error(e);
-    //   swal({
-    //     title: "Failed!",
-    //     text: "Oops, something went wrong",
-    //     icon: "error",
-    //   });
-    // }
+    await Session.signOut();
+    removeCookie("sFrontToken");
+    removeCookie("st-last-access-token-update");
     setIsLoading(false);
-    navigate("/login");
+    navigate("/login", { replace: true });
   };
 
   const onSubmit: SubmitHandler<SerialNumberInput> = async (data) => {

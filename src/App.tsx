@@ -10,19 +10,48 @@ import Record from "./screens/Record";
 import Status from "./screens/Status";
 import Result from "./screens/Status/Result";
 import ForgotPassword from "./screens/ForgotPassword";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <BaseLayout>
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Main />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/record" element={<Record />} />
-          <Route path="/status" element={<Status />} />
-          <Route path="/status/result" element={<Result />} />
+          <Route
+            path="/record"
+            element={
+              <ProtectedRoute>
+                <Record />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/status"
+            element={
+              <ProtectedRoute>
+                <Status />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/status/result"
+            element={
+              <ProtectedRoute>
+                <Result />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BaseLayout>
     </Router>

@@ -53,6 +53,7 @@ export const useStatus = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [records, setRecords] = useState<Array<SerialNumber>>([]);
+  const [isEnableVerification, setIsEnableVerification] = useState(false);
   const {
     register,
     handleSubmit,
@@ -65,19 +66,34 @@ export const useStatus = () => {
 
   useEffect(() => {
     setIsLoading(false);
-    const fetch = async () => {
-      setIsLoading(true);
-      const res = await graphqlRequest.request<any>(
-        findAllSerialNumbersQuery,
-        {}
-      );
-      if (res) {
-        setRecords(res.serial_numbers);
-        setIsLoading(false);
-      }
-    };
     fetch();
   }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (isEnableVerification) {
+      const res = records.filter(
+        (item: any) => item.verification === isEnableVerification
+      );
+      setRecords(res);
+    }
+    if (!isEnableVerification) {
+      fetch();
+    }
+    setIsLoading(false);
+  }, [isEnableVerification]);
+
+  const fetch = async () => {
+    setIsLoading(true);
+    const res = await graphqlRequest.request<any>(
+      findAllSerialNumbersQuery,
+      {}
+    );
+    if (res) {
+      setRecords(res.serial_numbers);
+      setIsLoading(false);
+    }
+  };
 
   const logoutHandler = async () => {
     setIsLoading(true);
@@ -116,9 +132,16 @@ export const useStatus = () => {
     }
   };
 
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(" ");
+  }
+
   return {
     records,
     isLoading,
+    isEnableVerification,
+    setIsEnableVerification,
+    classNames,
     setRecords,
     logoutHandler,
     handleSubmit,

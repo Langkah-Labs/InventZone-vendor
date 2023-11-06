@@ -4,6 +4,7 @@ import { useStatus } from "./hooks";
 // components
 import Spinner from "../../components/Spinner";
 import { IoIosLogOut } from "react-icons/io";
+import { Switch } from "@headlessui/react";
 // assets
 import { icon_img } from "../../utils/constants";
 import { NavLink } from "react-router-dom";
@@ -12,6 +13,9 @@ export default function Index() {
   const {
     isLoading,
     records,
+    isEnableVerification,
+    setIsEnableVerification,
+    classNames,
     logoutHandler,
     onSubmit,
     handleSubmit,
@@ -109,7 +113,33 @@ export default function Index() {
                   </p>
                 </div>
               </div>
-              <div className="-mx-4 mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8 h-[25rem]">
+              <div className="flex justify-end items-center gap-4 my-2">
+                Filter Status by:
+                <Switch.Group as="div" className="flex items-center">
+                  <Switch
+                    checked={isEnableVerification}
+                    onChange={setIsEnableVerification}
+                    className={classNames(
+                      isEnableVerification ? "bg-indigo-600" : "bg-gray-200",
+                      "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                    )}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={classNames(
+                        isEnableVerification
+                          ? "translate-x-5"
+                          : "translate-x-0",
+                        "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                      )}
+                    />
+                  </Switch>
+                  <Switch.Label as="span" className="ml-1 text-sm">
+                    <span className="font-medium text-gray-900">Done</span>
+                  </Switch.Label>
+                </Switch.Group>
+              </div>
+              <div className="-mx-4 mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8 h-[24rem]">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                   <table className="min-w-full divide-y divide-gray-300 font-sans">
                     <thead className="sticky top-0 bg-[#113A5D] text-gray-100">

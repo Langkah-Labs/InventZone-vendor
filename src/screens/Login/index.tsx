@@ -168,7 +168,7 @@ export default function Index() {
                     </div>
                   </form>
                 </div>
-                <div className="mt-10">
+                {/* <div className="mt-10">
                   <div className="relative">
                     <div
                       className="absolute inset-0 flex items-center"
@@ -192,7 +192,7 @@ export default function Index() {
                       </NavLink>
                     </span>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
